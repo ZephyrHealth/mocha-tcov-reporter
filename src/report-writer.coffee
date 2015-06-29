@@ -1,5 +1,6 @@
+path = require('path');
 color = require('mocha').reporters.Base.color
-format = require('sprintf-js').vsprintf
+format = require('sf')
 writer = require('./console-writer')
 _ = require('lodash/object')
 
@@ -19,21 +20,24 @@ class ReportWriter
     @options.satisfactory = parseFloat(@options.satisfactory)
 
   writeReport: (result) ->
-    writer.writeln "\nCode Coverage Results:\n"
+    divider = "--------------------------------------------------------------------------------"
+    writer.writeln divider
+    writer.writeln "  Code Coverage Results:\n"
     result.files.forEach @formatFileResult, @
 
     coverage = @colorize(result.coverage)
 
     writer.writeEOL()
-    writer.writeln "Total Coverage: " + coverage
+    writer.writeln "  Total Coverage: " + coverage
+    writer.writeln divider
     writer.writeEOL()
 
   formatFileResult: (file) ->
     coverage = @colorize(file.coverage)
-    @writeFileResult coverage, file.executed, file.total, file.fileName
+    @writeFileResult coverage, file.executed, file.total, path.relative(process.cwd(), file.fileName)
 
   colorize: (coverage) ->
-    percent = format '%6.2f%%', [coverage]
+    percent = format '  {0}%', [coverage]
 
     if coverage >= @options.satisfactory
       color('green', percent)
@@ -43,7 +47,9 @@ class ReportWriter
       color('bright yellow', percent)
 
   writeFileResult: (values...) ->
-    output = format '%s (%2d/%2d) %s', values
+    ratio = format '{0}/{1}', values[1], values[2]
+    indent = '          '
+    output = format '  {0} {1} {2}', values[0], (indent + ratio).slice(-indent.length), values[3]
     writer.writeln output
 
 module.exports = ReportWriter

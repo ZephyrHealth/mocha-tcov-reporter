@@ -1,21 +1,21 @@
 {
   "name": "mocha-tcov-reporter",
-  "version": "0.0.5",
+  "version": "0.0.6-rc.0",
   "keywords": [
-    "mocha",
+    "blanket",
     "code coverage",
-    "reporter",
-    "text",
     "file list",
+    "mocha",
+    "reporter",
     "simple",
-    "blanket"
+    "text"
   ],
   "description": "code coverage reporter for mocha",
   "main": "lib/reporter.js",
   "scripts": {
-    "test": "multi='spec=- mocha-lcov-reporter=lcov-report.lcov' ./node_modules/mocha/bin/mocha test",
     "build": "./node_modules/gulp/bin/gulp.js --require=coffee-script/register coffee",
-    "coveralls": "./node_modules/gulp/bin/gulp.js --require=coffee-script/register coveralls"
+    "coveralls": "./node_modules/gulp/bin/gulp.js --require=coffee-script/register coveralls",
+    "test": "multi='spec=- mocha-lcov-reporter=lcov-report.lcov' ./node_modules/mocha/bin/mocha test"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   "dependencies": {
     "lodash": "~3.9",
     "mocha": "~2.2",
-    "sprintf-js": "~1.0"
+    "sf": "^0.1.8"
   },
   "devDependencies": {
     "blanket": "~1.1",
@@ -48,8 +48,8 @@
   },
   "config": {
     "blanket": {
-      "pattern": "/lib/",
-      "data-cover-never": "/node_modules/"
+      "data-cover-never": "/node_modules/",
+      "pattern": "/lib/"
     }
   }
 }
