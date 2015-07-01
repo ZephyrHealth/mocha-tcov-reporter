@@ -34,7 +34,7 @@ class ReportWriter
 
   formatFileResult: (file) ->
     coverage = @colorize(file.coverage)
-    @writeFileResult coverage, file.executed, file.total, path.relative(process.cwd(), file.fileName)
+    @writeFileResult coverage, file.executed, file.total, file.fileName
 
   colorize: (coverage) ->
     percent = format '  {0}%', [coverage]
